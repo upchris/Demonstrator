@@ -193,6 +193,7 @@ def upload_multiple():
                     tmp_folder_name = str(uuid.uuid4())
                     tmp_folder_path = os.path.join('tmp', tmp_folder_name)
 
+                    ## TODO: delete tmp folder
                     zip_ref.extract(member, path=tmp_folder_path)
                     extracted_file_path = os.path.join(tmp_folder_path, member.filename)
                 
