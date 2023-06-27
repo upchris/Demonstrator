@@ -1,0 +1,7 @@
+Flask
+Flask_SQLAlchemy
+trimesh
+gmsh
+Werkzeug
+sqlalchemy
+Flask_WTF
