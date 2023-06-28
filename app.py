@@ -11,13 +11,9 @@ import os
 from werkzeug.datastructures import FileStorage
 from enum import Enum
 from sqlalchemy import JSON
-from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SelectMultipleField, SubmitField
-from wtforms.validators import DataRequired
 import trimesh
 import gmsh
 import threading
-import pygmsh
 import sqlite3
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -276,4 +272,4 @@ def getVorgangsfolge(filenameVoxel):
     return ["Materialentnahme", "CAM programmieren", "Weichfräsen", "Härten", "Drahterodieren", "Werkbank", "Montage"]
     
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(host='0.0.0.0', debug=True, port=5002)
