@@ -4,4 +4,3 @@ trimesh
 gmsh
 Werkzeug
 sqlalchemy
-Flask_WTF
