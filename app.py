@@ -53,21 +53,6 @@ class Material(Enum):
     MAT25 = 'Verbundwerkstoffe - GFK'
     
 
-        
-class AdditionalData(Enum):
-    DATA1 = "Sägen"
-    DATA2 = "Messen"
-    DATA3 = "Laserbeschriftung"
-    DATA4 = "Härten"
-    DATA5 = "Startlochbohren"
-    DATA6 = "Senkerodieren"
-    DATA7 = "Hohnen"
-    DATA8 = "Polieren"
-    
-    
-
-
-
 
 class Part(db.Model):
     __tablename__ = 'part'
@@ -81,16 +66,30 @@ class Part(db.Model):
     givenName = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     material = db.Column(db.String(100), nullable=True)
-    #sawing = db.Column(db.Boolean, default=False, nullable=True)
-
-
+    isSawing = db.Column(db.Boolean, nullable=True)
+    isMeasuring = db.Column(db.Boolean, nullable=True)
+    isLaserEngraving = db.Column(db.Boolean, nullable=True)
+    isHardening = db.Column(db.Boolean, nullable=True)
+    isStartholeDrilling = db.Column(db.Boolean, nullable=True)
+    isSinkEroding = db.Column(db.Boolean, nullable=True)
+    isHoning = db.Column(db.Boolean, nullable=True)
+    isPolishing = db.Column(db.Boolean, nullable=True)
 
 # Initialize the database
 with app.app_context():
     db.create_all()
 
     
-def createFile(file, givenName, material):
+def createFile(file, givenName, material,
+               isSawing,
+               isMeasuring,
+               isLaserEngraving,
+               isHardening,
+               isStartholeDrilling,
+               isSinkEroding,
+               isHoning,
+               isPolishing):
+
     # Save file to the upload folder
     originalFilename = file.filename
     
@@ -123,7 +122,15 @@ def createFile(file, givenName, material):
                     objStorageFilePath = objStorageFilePath,
                     voxelStorageFilePath = voxelStorageFilePath,
                     givenName=givenName,
-                    material=material)
+                    material=material,
+                    isSawing=isSawing,
+                    isMeasuring=isMeasuring,
+                    isLaserEngraving=isLaserEngraving,
+                    isHardening=isHardening,
+                    isStartholeDrilling=isStartholeDrilling,
+                    isSinkEroding=isSinkEroding,
+                    isHoning=isHoning,
+                    isPolishing=isPolishing)
         db.session.add(part)
         db.session.commit()
 
@@ -156,14 +163,47 @@ def upload_page():
     # Get data from the form
     file = request.files['file']
     givenName = request.form['givenName']
-    #sawing = request.form['sawing']
-
 
     material = request.form.get('material')
     if material == '':
         material=None
+        
+    isSawing = request.form.get('isSawing')
+    isSawing = bool(isSawing) if isSawing else None
 
-    createFile(file, givenName, material)
+    isMeasuring = request.form.get('isMeasuring')
+    isMeasuring = bool(isMeasuring) if isMeasuring else None
+    
+    isLaserEngraving = request.form.get('isLaserEngraving')
+    isLaserEngraving = bool(isLaserEngraving) if isLaserEngraving else None
+    
+    isHardening = request.form.get('isHardening')
+    isHardening = bool(isHardening) if isHardening else None
+    
+    isStartholeDrilling = request.form.get('isStartholeDrilling')
+    isStartholeDrilling = bool(isStartholeDrilling) if isStartholeDrilling else None
+    
+    isSinkEroding = request.form.get('isSinkEroding')
+    isSinkEroding = bool(isSinkEroding) if isSinkEroding else None
+
+    isHoning = request.form.get('isHoning')
+    isHoning = bool(isHoning) if isHoning else None
+
+    isPolishing = request.form.get('isPolishing')
+    isPolishing = bool(isPolishing) if isPolishing else None
+
+
+        
+
+    createFile(file, givenName, material,
+                isSawing,
+                isMeasuring,
+                isLaserEngraving,
+                isHardening,
+                isStartholeDrilling,
+                isSinkEroding,
+                isHoning,
+                isPolishing)
     
 
         
@@ -249,11 +289,50 @@ def update_part(part_id):
     part = Part.query.get_or_404(part_id)
     part.givenName = request.form['givenName']
     
+    
+    
+    isSawing = request.form.get('isSawing')
+    isSawing = bool(isSawing) if isSawing else None
+    part.isSawing = isSawing
+
+    isMeasuring = request.form.get('isMeasuring')
+    isMeasuring = bool(isMeasuring) if isMeasuring else None
+    part.isMeasuring=isMeasuring
+    
+    isLaserEngraving = request.form.get('isLaserEngraving')
+    isLaserEngraving = bool(isLaserEngraving) if isLaserEngraving else None
+    part.isLaserEngraving = isLaserEngraving
+    
+    isHardening = request.form.get('isHardening')
+    isHardening = bool(isHardening) if isHardening else None
+    part.isHardening=isHardening
+    
+    isStartholeDrilling = request.form.get('isStartholeDrilling')
+    isStartholeDrilling = bool(isStartholeDrilling) if isStartholeDrilling else None
+    part.isStartholeDrilling= isStartholeDrilling
+    
+    isSinkEroding = request.form.get('isSinkEroding')
+    isSinkEroding = bool(isSinkEroding) if isSinkEroding else None
+    part.isSinkEroding=isSinkEroding
+    
+    isHoning = request.form.get('isHoning')
+    isHoning = bool(isHoning) if isHoning else None
+    part.isHoning=isHoning
+
+    isPolishing = request.form.get('isPolishing')
+    isPolishing = bool(isPolishing) if isPolishing else None
+    part.isPolishing=isPolishing
+
+
+
     material = request.form.get('material')
     if material == '':
         material=None
 
     part.material = material
+
+
+
 
     db.session.commit()
     return redirect(url_for('parts'))
@@ -262,7 +341,10 @@ def update_part(part_id):
 def edit_part(part_id):
     part = Part.query.get_or_404(part_id)
 
-    return render_template('edit_part.html', part=part, material=Material)
+
+    return render_template('edit_part.html', part=part, 
+                           material=Material,
+                           isSawing=part.isSawing)
 
 def createVoxel(filename): 
     ### function goes here

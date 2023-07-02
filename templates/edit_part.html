@@ -15,9 +15,12 @@
       </a>
     <h1>CAD Modell bearbeiten: {{part.originalFilename}}</h1> 
     
-    <canvas id="myCanvas"></canvas>
 
-
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="myCanvas"></canvas>
+        </div>
+       <div class="col-md-6">
 
      <form method="POST" action="/parts/edit/{{ part.id }}">
         <div class="mb-3">
@@ -27,7 +30,7 @@
 
         
 
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <label class="form-label">Material</label>
             <select class="form-select" name="material">
                 <option value="" selected>Choose Material</option>
@@ -35,22 +38,53 @@
                 <option value="{{ choice.name }}" {% if part.material == choice.name %}selected{% endif %}>{{ choice.value }}</option>
                 {% endfor %}
             </select>
-        </div> -->
+        </div>
 
-        <div class="form-group">
-            <label>Additional Data:</label>
-            {% for option in AdditionalData %}
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="additionalData[]" value="{{ option.value }}">
-              <label class="form-check-label">{{ option.value }}</label>
-            </div>
-            {% endfor %}
-          </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isSawing" name="isSawing" {% if part.isSawing %}checked{% endif %}>
+            <label class="form-check-label" for="isSawing">Sägen</label>
+        </div>
 
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isMeasuring" name="isMeasuring" {% if part.isMeasuring %}checked{% endif %}>
+            <label class="form-check-label" for="isMeasuring">Messen</label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isLaserEngraving" name="isLaserEngraving" {% if part.isLaserEngraving %}checked{% endif %}>
+            <label class="form-check-label" for="isLaserEngraving">Lasergravur</label>
+        </div>
+
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isHardening" name="isHardening" {% if part.isHardening %}checked{% endif %}>
+            <label class="form-check-label" for="isHardening">Härten</label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isStartholeDrilling" name="isStartholeDrilling" {% if part.isStartholeDrilling %}checked{% endif %}>
+            <label class="form-check-label" for="isStartholeDrilling">Startlochbohren</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isSinkEroding" name="isSinkEroding" {% if part.isSinkEroding %}checked{% endif %}>
+            <label class="form-check-label" for="isSinkEroding">Senkerodieren</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isHoning" name="isHoning" {% if part.isHoning %}checked{% endif %}>
+            <label class="form-check-label" for="isHoning">Hohnen</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isPolishing" name="isPolishing" {% if part.isPolishing %}checked{% endif %}>
+            <label class="form-check-label" for="isPolishing">Polieren</label>
+        </div>
+    
+              
 
         <button type="submit" class="btn btn-primary">Speichern</button>
         <a href="/parts" class="btn btn-secondary">abbrechen</a>
     </form>
+</div>
+</div>
 </div>
 
 <script>

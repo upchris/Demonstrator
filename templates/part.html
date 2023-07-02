@@ -16,11 +16,16 @@
  
  <div class="container text-left">
 
-  <h1>CAD Modell: {{part.originalFilename}}</h1> 
-  <canvas id="myCanvas"></canvas>
+  <h1>CAD Modell: {{part.originalFilename}}</h1>
+  
+  <div class="row">
+    <div class="col-md-6">
+        <canvas id="myCanvas"></canvas>
+    </div>
+   <div class="col-md-6">
+
 
   <p>Bemerkung: {{ part.givenName }} </p>
-
       <p>Erstellt: {{ part.created_at }} </p>
  
 
@@ -51,9 +56,9 @@
       </div>
     </div>
 </div>	
+</div>
 
-
-
+</div>	
 </div>
 
 
