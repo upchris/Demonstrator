@@ -17,7 +17,7 @@ def create_mesh(stepStorageFilePath, stlStorageFilePath, objStorageFilePath, vox
     mesh.export(objStorageFilePath)
     [x,y,z] = mesh.bounding_box_oriented.extents
     mesh.apply_scale((1/x, 1/y, 1/z))
-    v = mesh.voxelized(1/64.)
+    v = mesh.voxelized(1/63.)
     voxel_data = v.matrix
     np.save(voxelStorageFilePath, voxel_data)
 
