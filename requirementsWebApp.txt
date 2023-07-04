@@ -4,3 +4,5 @@ trimesh
 gmsh
 Werkzeug
 sqlalchemy
+pyglet==1.5.27
+pyvirtualdisplay
