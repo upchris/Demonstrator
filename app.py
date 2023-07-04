@@ -67,7 +67,7 @@ class Part(db.Model):
     customer = db.Column(db.String(100), nullable=True)
     drawingNumber = db.Column(db.String(500), nullable=True)
     orderNumber = db.Column(db.String(500), nullable=True)
-    drawingStorageFilePath = db.Column(db.String(100), nullable=False)
+    drawingStorageFilePath = db.Column(db.String(100), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     material = db.Column(db.String(100), nullable=True)
     isSawing = db.Column(db.Boolean, nullable=True)
@@ -100,7 +100,11 @@ def createFile(file, comment, material,
 
     # Save file to the upload folder
     originalFilename = file.filename
-    originalDrawingEnding = os.path.splitext(drawingFile.filename)[1] 
+    
+    if drawingFile:
+        originalDrawingEnding = os.path.splitext(drawingFile.filename)[1] 
+    else:
+        originalDrawingEnding= None
 
     filename = str(uuid.uuid4())
     
@@ -110,11 +114,14 @@ def createFile(file, comment, material,
     stlStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ '.stl')
     objStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ '.obj')
     voxelStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ '.npy')
-    drawingStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ originalDrawingEnding)
-
+    
+    if drawingFile:
+        drawingStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ originalDrawingEnding)
+        drawingFile.save(drawingStorageFilePath)
+    else:
+        drawingStorageFilePath=None
     file.save(stepStorageFilePath)
 
-    drawingFile.save(drawingStorageFilePath)
     ## dirty, but Trimesh cannot run in flask in a thread
     
     with app.app_context():
@@ -273,7 +280,7 @@ def upload_multiple():
                         file_storage = FileStorage(stream=file, filename=name)
 
                     # Create a Part object using the byte stream
-                    createFile(file_storage, None, None, None)
+                    createFile(file_storage, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
         
         return redirect(url_for('parts'))
     else:
