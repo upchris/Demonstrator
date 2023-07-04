@@ -63,7 +63,11 @@ class Part(db.Model):
     stlStorageFilePath = db.Column(db.String(100), nullable=False)
     objStorageFilePath = db.Column(db.String(100), nullable=False)
     voxelStorageFilePath = db.Column(db.String(100), nullable=False)
-    givenName = db.Column(db.String(100), nullable=True)
+    comment = db.Column(db.String(500), nullable=True)
+    customer = db.Column(db.String(100), nullable=True)
+    drawingNumber = db.Column(db.String(500), nullable=True)
+    orderNumber = db.Column(db.String(500), nullable=True)
+    drawingStorageFilePath = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     material = db.Column(db.String(100), nullable=True)
     isSawing = db.Column(db.Boolean, nullable=True)
@@ -80,7 +84,11 @@ with app.app_context():
     db.create_all()
 
     
-def createFile(file, givenName, material,
+def createFile(file, comment, material,
+               customer,
+               drawingNumber,
+               orderNumber,
+               drawingFile,
                isSawing,
                isMeasuring,
                isLaserEngraving,
@@ -92,7 +100,8 @@ def createFile(file, givenName, material,
 
     # Save file to the upload folder
     originalFilename = file.filename
-    
+    originalDrawingEnding = os.path.splitext(drawingFile.filename)[1] 
+
     filename = str(uuid.uuid4())
     
 
@@ -101,9 +110,11 @@ def createFile(file, givenName, material,
     stlStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ '.stl')
     objStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ '.obj')
     voxelStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ '.npy')
+    drawingStorageFilePath=os.path.join(app.config['UPLOAD_FOLDER'], filename+ originalDrawingEnding)
 
     file.save(stepStorageFilePath)
 
+    drawingFile.save(drawingStorageFilePath)
     ## dirty, but Trimesh cannot run in flask in a thread
     
     with app.app_context():
@@ -121,7 +132,11 @@ def createFile(file, givenName, material,
                     stlStorageFilePath = stlStorageFilePath, 
                     objStorageFilePath = objStorageFilePath,
                     voxelStorageFilePath = voxelStorageFilePath,
-                    givenName=givenName,
+                    comment=comment,
+                    customer = customer,
+                    drawingNumber = drawingNumber,
+                    orderNumber = orderNumber,
+                    drawingStorageFilePath = drawingStorageFilePath,
                     material=material,
                     isSawing=isSawing,
                     isMeasuring=isMeasuring,
@@ -162,7 +177,10 @@ def upload():
 def upload_page():
     # Get data from the form
     file = request.files['file']
-    givenName = request.form['givenName']
+    comment = request.form['comment']
+
+    drawingFile = request.files['drawingFile']
+
 
     material = request.form.get('material')
     if material == '':
@@ -192,10 +210,25 @@ def upload_page():
     isPolishing = request.form.get('isPolishing')
     isPolishing = bool(isPolishing) if isPolishing else None
 
+    customer = request.form.get('customer')
+    if customer == '':
+        customer=None
+        
+    drawingNumber = request.form.get('drawingNumber')
+    if drawingNumber == '':
+        drawingNumber=None
+        
+    orderNumber = request.form.get('orderNumber')
+    if orderNumber == '':
+        orderNumber=None
 
         
 
-    createFile(file, givenName, material,
+    createFile(file, comment, material,
+                customer,
+                drawingNumber,
+                orderNumber,
+                drawingFile,
                 isSawing,
                 isMeasuring,
                 isLaserEngraving,
@@ -287,7 +320,6 @@ def view_part(part_id):
 @app.route('/parts/edit/<int:part_id>', methods=['POST'])
 def update_part(part_id):
     part = Part.query.get_or_404(part_id)
-    part.givenName = request.form['givenName']
     
     
     
@@ -329,8 +361,29 @@ def update_part(part_id):
     if material == '':
         material=None
 
-    part.material = material
 
+    drawingNumber = request.form.get('drawingNumber')
+    if drawingNumber == '':
+        drawingNumber=None
+
+    customer = request.form.get('customer')
+    if customer == '':
+        customer=None
+        
+    orderNumber = request.form.get('orderNumber')
+    if orderNumber == '':
+        orderNumber=None
+        
+    comment = request.form.get('comment')
+    if comment == '':
+        comment=None
+        
+
+    part.comment = comment
+    part.customer = customer
+    part.material = material
+    part.drawingNumber = drawingNumber
+    part.orderNumber = orderNumber
 
 
 

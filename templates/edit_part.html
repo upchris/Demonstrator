@@ -20,26 +20,46 @@
         <div class="col-md-6">
             <canvas id="myCanvas"></canvas>
         </div>
+
        <div class="col-md-6">
 
      <form method="POST" action="/parts/edit/{{ part.id }}">
-        <div class="mb-3">
-            <label for="givenName" class="form-label">Bemerkung</label>
-            <input type="text" class="form-control" id="givenName" name="givenName" value="{% if part.givenName %}{{ part.givenName }}{% else %}{% endif %}">
+        <div class="row">
+<div class="col">
+
+    <label for="drawingNumber" class="form-label">Zeichnungsnummer</label>
+    <input type="text" class="form-control" id="drawingNumber" name="drawingNumber" value="{% if part.drawingNumber %}{{ part.drawingNumber }}{% else %}{% endif %}">
+  </div>
+
+    <div class="col">
+
+    <label for="customer" class="form-label">Kunde</label>
+    <input type="text" class="form-control" id="customer" name="customer" value="{% if part.customer %}{{ part.customer }}{% else %}{% endif %}">
+
         </div>
+        <div class="col">
+
+            <label for="orderNumber" class="form-label">Auftragsnummer</label>
+            <input type="text" class="form-control" id="orderNumber" name="orderNumber" value="{% if part.orderNumber %}{{ part.orderNumber }}{% else %}{% endif %}">
+        
+                </div>
+        </div>
+    </div>
+</div>
 
         
 
-        <div class="mb-3">
+        <div class="row">
+            <div class="col">
             <label class="form-label">Material</label>
             <select class="form-select" name="material">
-                <option value="" selected>Choose Material</option>
+                <option value="" selected>Werkstoff auswählen</option>
                 {% for choice in material %}
                 <option value="{{ choice.name }}" {% if part.material == choice.name %}selected{% endif %}>{{ choice.value }}</option>
                 {% endfor %}
             </select>
-        </div>
 
+            <br>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="isSawing" name="isSawing" {% if part.isSawing %}checked{% endif %}>
             <label class="form-check-label" for="isSawing">Sägen</label>
@@ -78,14 +98,23 @@
             <label class="form-check-label" for="isPolishing">Polieren</label>
         </div>
     
-              
+              </div>
 
+              <div class="col">
+                <label for="text_input" class="form-label">Beschreibung</label>
+                <textarea class="form-control" id="text_input" name="comment" rows="5"> {% if part.comment %}{{ part.comment }}{% else %}{% endif %}</textarea>
+            </div>
+</div>
+</div>
+</div>
+</div>
         <button type="submit" class="btn btn-primary">Speichern</button>
         <a href="/parts" class="btn btn-secondary">abbrechen</a>
     </form>
 </div>
 </div>
-</div>
+
+
 
 <script>
     var stlFile="/parts/stl/{{ part.id }}";

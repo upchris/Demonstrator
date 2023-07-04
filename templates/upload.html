@@ -11,26 +11,48 @@
     <br>
     <br>
       <form method="post" enctype="multipart/form-data">
-        <div>
-          <label for="file" class="form-label">Select CAD File (STP/STEP)</label>
+        <div class="row">
+          <div class="col">          <label for="file" class="form-label">CAD Datei auswählen (STP/STEP)</label>
           <input class="form-control" type="file" id="file" name="file" accept=".stp, .step" required>
         </div>
-        <div>
-    <div class="mb-3">
-      <label for="text_input" class="form-label">Beschreibung</label>
-      <textarea class="form-control" id="text_input" name="givenName" rows="5"></textarea>
+        <div class="col">
+
+          <label for="file" class="form-label">Zeichnung auswählen (*.tiff, *.png, *.bmp, *.pdf)</label>
+          <input class="form-control" type="file" id="drawingFile" name="drawingFile" accept=".tiff, .png, .bmp, .pdf">
+        </div>
+        </div>
+
+        <br>
+
+        
+        <div class="row">
+
+          <div class="col"> 
+                      <label for="text_input" class="form-label">Zeichnungsnummer</label>
+          <textarea class="form-control" id="drawingNumber" name="drawingNumber" rows="1"></textarea>
+        </div>
+        <div class="col"> 
+          <label for="text_input" class="form-label">Kunde</label>
+          <textarea class="form-control" id="orderNumber" name="orderNumber" rows="1"></textarea>
+        </div>
+        <div class="col"> 
+          <label for="text_input" class="form-label">Auftragsnummer</label>
+          <textarea class="form-control" id="customer" name="customer" rows="1"></textarea>
+        </div>
     </div>
 
 
-  <div class="mb-3">
-    <label class="form-label">Material</label>
+<br>
+    <div class="row">
+      <div class="col">
+            <label class="form-label">Material</label>
     <select class="form-select" name="material">
-        <option value="" selected>Choose Material</option>
+        <option value="" selected> Material auswählen</option>
         {% for choice in material %}
         <option value="{{ choice.name }}">{{ choice.value }}</option>
         {% endfor %}
     </select>
-</div>
+
 
 <div class="form-group">
   <label>Zusatzinformationen:</label>
@@ -69,13 +91,15 @@
   <input class="form-check-input" type="checkbox" name="isPolishing">
   <label class="form-check-label"> Polieren</label>
 </div>
-                
+</div>    
+</div>    
 
-
-
+<div class="col">
+    <label for="text_input" class="form-label">Beschreibung</label>
+    <textarea class="form-control" id="text_input" name="comment" rows="5"></textarea>
 </div>
 
-  
+  </div>
         </div>
             <button class="btn btn-primary" type="submit">Upload</button>
       </form>

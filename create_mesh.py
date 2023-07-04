@@ -54,7 +54,7 @@ def create_mesh(stepStorageFilePath, stlStorageFilePath, objStorageFilePath, vox
     voxel_data = v.matrix
     np.save(voxelStorageFilePath, voxel_data)
 
-    render(mesh)
+    #render(mesh)
 if __name__ == "__main__":
     stepStorageFilePath = sys.argv[1]
     objStorageFilePath = sys.argv[2]
