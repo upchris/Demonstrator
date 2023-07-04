@@ -8,15 +8,15 @@
  {% block content %}
  
  
- <a href="/parts" class="btn btn-primary btn-lg mb-3">
-  <i class="bi bi-arrow-left"></i> Zurück
-</a>
+ <h1><a href="/parts" class="btn btn-lg">
+  <i class="bi bi-arrow-return-left"></i> 
+</a> Vorgangsfolge</h1> 
+
 
 
  
  <div class="container text-left">
 
-  <h1>CAD Modell: {{part.originalFilename}}</h1>
   
   <div class="row">
     <div class="col-md-6">
@@ -24,8 +24,9 @@
     </div>
    <div class="col-md-6">
 
+    CAD Modell: {{part.originalFilename}}
 
-  <p>Bemerkung: {{ part.givenName }} </p>
+  <p>Bemerkung: {{ part.comment }} </p>
       <p>Erstellt: {{ part.created_at }} </p>
  
 

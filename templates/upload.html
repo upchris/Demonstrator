@@ -33,11 +33,11 @@
         </div>
         <div class="col"> 
           <label for="text_input" class="form-label">Kunde</label>
-          <textarea class="form-control" id="orderNumber" name="orderNumber" rows="1"></textarea>
+          <textarea class="form-control" id="customer" name="customer" rows="1"></textarea>
         </div>
         <div class="col"> 
           <label for="text_input" class="form-label">Auftragsnummer</label>
-          <textarea class="form-control" id="customer" name="customer" rows="1"></textarea>
+          <textarea class="form-control" id="orderNumber" name="orderNumber" rows="1"></textarea>
         </div>
     </div>
 
@@ -96,13 +96,16 @@
 
 <div class="col">
     <label for="text_input" class="form-label">Beschreibung</label>
-    <textarea class="form-control" id="text_input" name="comment" rows="5"></textarea>
+    <textarea class="form-control" id="text_input" name="comment" rows="3"></textarea>
 </div>
 
   </div>
         </div>
-            <button class="btn btn-primary" type="submit">Upload</button>
-      </form>
+<br>
+        <p class="float-right">
+            <button class="btn btn-primary float right" type="submit">Upload</button>
+          </p>
+          </form>
     
     </div>
 {% endblock %}
