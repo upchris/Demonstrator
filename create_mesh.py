@@ -13,6 +13,17 @@ def create_mesh(stepStorageFilePath, stlStorageFilePath, objStorageFilePath, vox
 
 
     mesh = trimesh.Trimesh(**trimesh.interfaces.gmsh.load_gmsh(stepStorageFilePath))
+    
+    # center mesh for files which fly around in space
+    
+    center_of_gravity = mesh.center_mass
+
+    # Compute the translation vector to shift the mesh
+    translation = -np.array(center_of_gravity)
+
+    # Apply the translation to each vertex of the mesh
+    mesh.vertices += translation
+
     mesh.export(stlStorageFilePath)
     mesh.export(objStorageFilePath)
     [x,y,z] = mesh.bounding_box_oriented.extents
