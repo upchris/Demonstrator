@@ -1,0 +1,6 @@
+.gitignore
+tmp/.DS_Store
+.DS_Store
+tmp/
+uploads/
+instance/
