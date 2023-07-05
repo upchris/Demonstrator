@@ -7,16 +7,15 @@ import io
 import tempfile
 import subprocess
 import os
-from sqlalchemy import asc
-
-
-from werkzeug.datastructures import FileStorage
 from enum import Enum
-from sqlalchemy import JSON
+from sqlalchemy import asc
+from werkzeug.datastructures import FileStorage
 import trimesh
 import gmsh
 import threading
 import sqlite3
+
+
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'your-secret-key'
