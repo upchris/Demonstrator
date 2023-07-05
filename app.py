@@ -7,6 +7,8 @@ import io
 import tempfile
 import subprocess
 import os
+from sqlalchemy import asc
+
 
 from werkzeug.datastructures import FileStorage
 from enum import Enum
@@ -309,7 +311,7 @@ def delete_part(part_id):
     
 @app.route('/parts', methods=['GET'])
 def parts():
-    parts = Part.query.all()
+    parts = Part.query.order_by(Part.created_at.desc()).all()
     return render_template('parts.html', parts=parts)
 
 @app.route('/parts/<int:part_id>', methods=['GET'])
