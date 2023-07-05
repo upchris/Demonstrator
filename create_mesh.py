@@ -32,6 +32,7 @@ def create_mesh(stepStorageFilePath, stlStorageFilePath, objStorageFilePath, vox
     print('export stl file: ' + stlStorageFilePath)
     print('export voxel file: ' + voxelStorageFilePath)
 
+    voxelSize = 1 / 63.
 
 
     mesh = trimesh.Trimesh(**trimesh.interfaces.gmsh.load_gmsh(stepStorageFilePath))
@@ -49,10 +50,20 @@ def create_mesh(stepStorageFilePath, stlStorageFilePath, objStorageFilePath, vox
     mesh.export(stlStorageFilePath)
     mesh.export(objStorageFilePath)
     [x,y,z] = mesh.bounding_box_oriented.extents
-    mesh.apply_scale((1/x, 1/y, 1/z))
-    v = mesh.voxelized(1/63.)
-    voxel_data = v.matrix
-    np.save(voxelStorageFilePath, voxel_data)
+    scale = max([x,y,z])
+    mesh.apply_scale((1/scale, 1/scale, 1/scale))
+    
+    voxel = mesh.voxelized(voxelSize).fill()
+    voxel_data = voxel.matrix
+    
+    ## fill voxel to have an equal grid size in all directions
+    desired_shape = (int(1/voxelSize)+1, int(1/voxelSize)+1, int(1/voxelSize)+1)
+    new_matrix = np.zeros(desired_shape, dtype=bool)
+    original_shape = voxel_data.shape
+    new_matrix[:original_shape[0], :original_shape[1], :original_shape[2]] = voxel_data
+
+
+    np.save(voxelStorageFilePath, new_matrix)
 
     #render(mesh)
 if __name__ == "__main__":
