@@ -2,6 +2,12 @@
 block content %}
 
 <div class="container">
+  <div class="text-right">
+    <a href="/upload">
+      <i class="bi bi-cloud-upload"> </i>
+    </a>
+  </div>
+
   {% if parts %}
   <table class="table table-hover">
     <thead>
@@ -10,7 +16,6 @@ block content %}
         <th scope="col"></th>
         <th scope="col">Dateiname</th>
         <th scope="col">Zeichnungsnummer</th>
-        <th scope="col">Material</th>
         <th scope="col">Timestamp</th>
         <th scope="col">Actions</th>
       </tr>
@@ -25,10 +30,7 @@ block content %}
           {% if part.drawingNumber %}{{ part.drawingNumber }}{% else %}{% endif
           %}
         </td>
-        <td>
-          {% if part.material.value %}{{ part.material.value }}{% else %}{%
-          endif %}
-        </td>
+
         <td>{{ part.created_at }}</td>
         <td>
           <a href="/parts/{{ part.id }}" class="btn btn-light"
