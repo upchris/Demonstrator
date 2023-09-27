@@ -168,11 +168,11 @@ def get_stl(part_id):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-
         return redirect(url_for('index'))
     
+    parts = Part.query.all()
 
-    data=[]
+    data={"numParts":len(parts)}
     
     return render_template('index.html', data=data)
 
@@ -321,7 +321,7 @@ def view_part(part_id):
     ### here comes the ml model
     #vorgangsfolge = getVorgangsfolge(filenameVoxel)
     ### here comes the ml model
-    vorgangsfolge=["a","vorgangsfolge"]
+    vorgangsfolge=["Drehen","Fräsen", "Erodieren"]
     
     return render_template('part.html', part=part, vorgangsfolge=vorgangsfolge)
 
