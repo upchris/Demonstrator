@@ -79,6 +79,8 @@ class Part(db.Model):
     isSinkEroding = db.Column(db.Boolean, nullable=True)
     isHoning = db.Column(db.Boolean, nullable=True)
     isPolishing = db.Column(db.Boolean, nullable=True)
+    isCoordinateGrinding = db.Column(db.Boolean, nullable=True)
+    isHSCMilling = db.Column(db.Boolean, nullable=True)
 
 # Initialize the database
 with app.app_context():
@@ -97,7 +99,9 @@ def createFile(file, comment, material,
                isStartholeDrilling,
                isSinkEroding,
                isHoning,
-               isPolishing):
+               isPolishing,
+               isCoordinateGrinding,
+               isHSCMilling):
 
     # Save file to the upload folder
     originalFilename = file.filename
@@ -153,7 +157,9 @@ def createFile(file, comment, material,
                     isStartholeDrilling=isStartholeDrilling,
                     isSinkEroding=isSinkEroding,
                     isHoning=isHoning,
-                    isPolishing=isPolishing)
+                    isPolishing=isPolishing,
+                    isCoordinateGrinding=isCoordinateGrinding,
+                    isHSCMilling=isHSCMilling)
         db.session.add(part)
         db.session.commit()
 
@@ -217,6 +223,13 @@ def upload_page():
 
     isPolishing = request.form.get('isPolishing')
     isPolishing = bool(isPolishing) if isPolishing else None
+    
+    isCoordinateGrinding = request.form.get('isCoordinateGrinding')
+    isCoordinateGrinding = bool(isCoordinateGrinding) if isCoordinateGrinding else None
+
+    isHSCMilling = request.form.get('isHSCMilling')
+    isHSCMilling = bool(isHSCMilling) if isHSCMilling else None
+
 
     customer = request.form.get('customer')
     if customer == '':
@@ -244,7 +257,9 @@ def upload_page():
                 isStartholeDrilling,
                 isSinkEroding,
                 isHoning,
-                isPolishing)
+                isPolishing,
+                isCoordinateGrinding,
+                isHSCMilling)
     
 
         
@@ -362,6 +377,16 @@ def update_part(part_id):
     isPolishing = request.form.get('isPolishing')
     isPolishing = bool(isPolishing) if isPolishing else None
     part.isPolishing=isPolishing
+
+
+    isCoordinateGrinding = request.form.get('isCoordinateGrinding')
+    isCoordinateGrinding = bool(isCoordinateGrinding) if isCoordinateGrinding else None
+    part.isCoordinateGrinding=isCoordinateGrinding
+
+
+    isHSCMilling = request.form.get('isHSCMilling')
+    isHSCMilling = bool(isHSCMilling) if isHSCMilling else None
+    part.isHSCMilling=isHSCMilling
 
 
 

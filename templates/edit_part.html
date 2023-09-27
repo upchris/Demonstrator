@@ -95,6 +95,16 @@
             <input class="form-check-input" type="checkbox" id="isPolishing" name="isPolishing" {% if part.isPolishing %}checked{% endif %}>
             <label class="form-check-label" for="isPolishing">Polieren</label>
           </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isCoordinateGrinding" name="isCoordinateGrinding" {% if part.isCoordinateGrinding %}checked{% endif %}>
+            <label class="form-check-label" for="isCoordinateGrinding">Koordinatenschleifen</label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="isHSCMilling" name="isHSCMilling" {% if part.isHSCMilling %}checked{% endif %}>
+            <label class="form-check-label" for="isHSCMilling">HSC Fräsen</label>
+          </div>
         </div>
 
         <div class="mb-3">
